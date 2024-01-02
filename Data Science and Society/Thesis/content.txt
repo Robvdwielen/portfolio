@@ -1,0 +1,12 @@
+Master Thesis: CNN-LSTM Based Prediction of Station-Level Bike Demand
+Welcome to my master thesis repository for the Data Science and Society program. Awarded a grade of 8, this thesis focuses on exploring the predictive power of neural networks, particularly CNN-LSTMs, in forecasting bike demand at various station levels.
+
+Overview
+This work represents a comprehensive effort to blend advanced machine learning techniques with practical transportation needs. The primary aim is to assess how effectively CNN-LSTMs can model and predict bike usage patterns at individual stations.
+
+Contents
+Included within this repository is all the coding developed throughout my thesis, showcasing the practical application of theoretical concepts in data science to address real-world challenges.
+
+
+
+
