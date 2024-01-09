@@ -1,3 +1,4 @@
+
 # Load R-packages
 library(dplyr)
 library(readr)
@@ -13,6 +14,13 @@ library(data.table)
 product_description_pre_owned <- read_delim("../data/product_description_pre_owned.csv", 
                                             delim = ";", escape_double = FALSE, trim_ws = TRUE)
 View(product_description_pre_owned)
+
+######################################
+product_description_pre_owned <- read_excel("../data/product_description_pre_owned.xlsx", sheet = 1, col_names = TRUE, col_types = NULL, na = "", skip = 0)
+View(product_description_pre_owned)
+
+######################################
+
 
 ### Check class of every variable
 class(product_description_pre_owned$brand)
@@ -41,6 +49,7 @@ product_description_po_cleaned <- product_description_po_cleaned %>%
 
 ### Write CSV file cleaned dataset "product_description_po_cleaned"
 fwrite(product_description_po_cleaned, '../data/product_description_po_cleaned.csv', row.names = F)
+
 
 
 
@@ -120,18 +129,27 @@ product_description_regular <- read_delim("../data/product_description_herenkled
                                             delim = ";", escape_double = FALSE, trim_ws = TRUE)
 View(product_description_regular)
 
+######################################
+product_description_regular1 <- read_excel("../data/product_description_herenkleding.xlsx", sheet = 1, col_names = TRUE, col_types = NULL, na = "", skip = 0)
+View(product_description_regular1)
+
+######################################
+
+
 ### Check class of every variable
 class(product_description_regular$brand)
 class(product_description_regular$price)
 class(product_description_regular$delivery_time)
 class(product_description_regular$category)
 class(product_description_regular$color)
+class(product_description_regular$size)
+class(product_description_regular$date)
 
 ### Remove double hyphens in $delivery_time
 product_description_reg_cleaned <- product_description_regular %>% 
   mutate(delivery_time = gsub("--", "-", product_description_regular$delivery_time))
 
-### Remove 'vanaf' and replace the comma for a dot in price
+### Remove 'vanaf' and replace the comma for a dot in price. 
 product_description_reg_cleaned <- product_description_reg_cleaned %>% 
   mutate(price = gsub("Vanaf", "", product_description_reg_cleaned$price))
 
@@ -156,21 +174,20 @@ product_description_reg_cleaned <- product_description_reg_cleaned %>%
 fwrite(product_description_reg_cleaned, '../data/product_description_reg_cleaned.csv', row.names = F)
 
 
-
 ## 2.2 INSPECTION 
 ### General summary statistics
 summary(product_description_reg_cleaned)
 
-# Conclusion $price: The mean price for all products is 76.82 euros. 
+# Conclusion $price: The mean price for all products is 76.86 euros. 
 # Conclusion $delivery_time: Mostly all of the product are delivered between 1-2 days or 3-6 days.
 
 
 ### Exploration $brand
-# Number of different brands in the dataset: In total 596 brands occur in the dataset. The number of brand is too much to plot.
+# Number of different brands in the dataset: In total 533 brands occur in the dataset. The number of brand is too much to plot.
 brand_n_reg <- product_description_reg_cleaned %>%
   count(brand)
 
-# Create new dataset with the brands that occur more than 100 times: The brand 'Next' occurs the most on Zalando Herenkleding, followed by 'Jack & Jones', 'BOSS' and 'LC Waikiki'.
+# Create new dataset with the brands that occur more than 100 times: The brand 'Next' occurs the most on Zalando Herenkleding, followed by 'Jack & Jones', 'LC Waikiki' and 'BOSS'.
 brand_most_occur_reg <- brand_n_reg %>%
   filter(n > 100)
 
@@ -180,7 +197,7 @@ ggplot(data = brand_most_occur_reg, aes(x = brand, y = n)) +
        x = "Brands", y = "Number of times in dataset")
 
 ### Exploration $category
-# Number of different categories in the dataset: 115 categories occur in the dataset. This is too much to plot.
+# Number of different categories in the dataset: 93 categories occur in the dataset. This is too much to plot.
 category_n_reg <- product_description_reg_cleaned %>%
   count(category)
 
@@ -194,11 +211,11 @@ ggplot(data = category_most_occur_reg, aes(x = category, y = n)) +
        x = "Category", y = "Number of times in dataset")
 
 ### Exploration $color
-# Number of different colors in the dataset: 3730 colors or color combinations occur in the dataset. These are too many colors to plot.
+# Number of different colors in the dataset: 2198 colors or color combinations occur in the dataset. This are too many colors to plot.
 color_n_reg <- product_description_reg_cleaned %>%
   count(color)
 
-# Create a dataset with the colors that occurs more than a 100 times: 'Black" is by far the most offered color on Zalando Herenkleding. This is followed by the colors 'White', 'Blue' and 'Navy'. 
+# Create a dataset with the colors that occurs more than a 100 times: 'Black" is by far the most offered color on Zalando Herenkleding. This is followed by the colors 'White', 'Blue' and 'Dark blue'. 
 color_most_occur_reg <- color_n_reg %>%
   filter(n > 100)
 
